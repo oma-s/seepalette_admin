@@ -1,4 +1,4 @@
-class CreateTempUser < ActiveRecord::Migration[8.0]
+class CreateUser < ActiveRecord::Migration[8.0]
   def up
     # Use raw SQL or the model's connection to avoid loading the model
     return if ActiveRecord::Base.connection.execute("SELECT 1 FROM users WHERE email = 'temp@example.com'").any?
