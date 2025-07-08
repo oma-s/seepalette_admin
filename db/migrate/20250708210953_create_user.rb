@@ -4,6 +4,7 @@ class CreateUser < ActiveRecord::Migration[8.0]
 
     User.create!(
       given_name: 'Temp',
+      family_name: 'User',
       email: 'temp@example.com',
       password: 'temp1234',
       password_confirmation: 'temp1234'
