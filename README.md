@@ -15,3 +15,5 @@ https://activeadmin-demo.onrender.com
 - `bin/setup`
 
 Open http://localhost:3000
+
+A test user is in the seeds
