@@ -1,0 +1,11 @@
+p style="color: green" = notice
+
+h1 Product families
+
+#product_families
+  - @product_families.each do |product_family|
+    == render product_family
+    p
+      = link_to "Show this product family", product_family
+
+= link_to "New product family", new_product_family_path
