@@ -1,0 +1,50 @@
+= form_with(model: product) do |form|
+  - if product.errors.any?
+    div style="color: red"
+      h2 = "#{pluralize(product.errors.count, "error")} prohibited this product from being saved:"
+      ul
+        - product.errors.each do |error|
+          li = error.full_message
+
+  div
+    = form.label :title, style: "display: block"
+    = form.text_field :title
+
+  div
+    = form.label :menu_description, style: "display: block"
+    = form.textarea :menu_description
+
+  div
+    = form.label :ekp, style: "display: block"
+    = form.text_field :ekp
+
+  div
+    = form.label :uvp, style: "display: block"
+    = form.text_field :uvp
+
+  div
+    = form.label :vkp, style: "display: block"
+    = form.text_field :vkp
+
+  div
+    = form.label :stock_unit, style: "display: block"
+    = form.text_field :stock_unit
+
+  div
+    = form.label :stock_target, style: "display: block"
+    = form.number_field :stock_target
+
+  div
+    = form.label :print_on_menu, style: "display: block"
+    = form.checkbox :print_on_menu
+
+  div
+    = form.label :active, style: "display: block"
+    = form.checkbox :active
+
+  div
+    = form.label :category_id, style: "display: block"
+    = form.text_field :category_id
+
+  div
+    = form.submit

@@ -1,12 +1,26 @@
+databases:
+  - name: seepalette_admin_db
+    databaseName: seepalette_admin_production
+    user: seepalette_admin
+    plan: free
+
 services:
   - type: web
-    name: activeadmin-demo
+    name: seepalette_admin
     runtime: ruby
     plan: free
     buildCommand: "./bin/render-build.sh"
-    startCommand: "./bin/rails server"
+    startCommand: "bundle exec puma -C config/puma.rb"
     envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: seepalette_admin_db
+          property: connectionString
       - key: RAILS_MASTER_KEY
         sync: false
+      - key: RAILS_ENV
+        value: production
+      - key: RAILS_SERVE_STATIC_FILES
+        value: "true"
       - key: WEB_CONCURRENCY
         value: 2 # sensible default

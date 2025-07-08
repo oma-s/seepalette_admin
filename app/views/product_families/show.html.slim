@@ -1,0 +1,10 @@
+p style="color: green" = notice
+
+== render @product_family
+
+div
+  => link_to "Edit this product family", edit_product_family_path(@product_family)
+  '|
+  =< link_to "Back to product families", product_families_path
+
+  = button_to "Destroy this product family", @product_family, method: :delete

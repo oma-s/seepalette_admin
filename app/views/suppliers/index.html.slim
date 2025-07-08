@@ -1,0 +1,11 @@
+p style="color: green" = notice
+
+h1 Suppliers
+
+#suppliers
+  - @suppliers.each do |supplier|
+    == render supplier
+    p
+      = link_to "Show this supplier", supplier
+
+= link_to "New supplier", new_supplier_path

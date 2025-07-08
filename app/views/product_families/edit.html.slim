@@ -1,0 +1,10 @@
+h1 Editing product family
+
+== render "form", product_family: @product_family
+
+br
+
+div
+  => link_to "Show this product family", @product_family
+  '|
+  =< link_to "Back to product families", product_families_path
