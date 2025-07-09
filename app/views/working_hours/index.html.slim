@@ -1,0 +1,11 @@
+p style="color: green" = notice
+
+h1 Working hours
+
+#working_hours
+  - @working_hours.each do |working_hour|
+    == render working_hour
+    p
+      = link_to "Show this working hour", working_hour
+
+= link_to "New working hour", new_working_hour_path

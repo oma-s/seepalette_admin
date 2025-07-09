@@ -1,0 +1,10 @@
+p style="color: green" = notice
+
+== render @working_hour
+
+div
+  => link_to "Edit this working hour", edit_working_hour_path(@working_hour)
+  '|
+  =< link_to "Back to working hours", working_hours_path
+
+  = button_to "Destroy this working hour", @working_hour, method: :delete
