@@ -1,0 +1,34 @@
+= form_with(model: working_hour) do |form|
+  - if working_hour.errors.any?
+    div style="color: red"
+      h2 = "#{pluralize(working_hour.errors.count, "error")} prohibited this working_hour from being saved:"
+      ul
+        - working_hour.errors.each do |error|
+          li = error.full_message
+
+  div
+    = form.label :date, style: "display: block"
+    = form.date_field :date
+
+  div
+    = form.label :start_at, style: "display: block"
+    = form.datetime_field :start_at
+
+  div
+    = form.label :end_at, style: "display: block"
+    = form.datetime_field :end_at
+
+  div
+    = form.label :break_minutes, style: "display: block"
+    = form.number_field :break_minutes
+
+  div
+    = form.label :duration_minutes, style: "display: block"
+    = form.number_field :duration_minutes
+
+  div
+    = form.label :user_id, style: "display: block"
+    = form.text_field :user_id
+
+  div
+    = form.submit

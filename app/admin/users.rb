@@ -58,8 +58,24 @@ ActiveAdmin.register User do
       row :updated_at
     end
 
+    # Add panel for working hours
+    panel 'Working Hours' do
+      table_for resource.working_hours do
+        column :id do |wh|
+          link_to wh.id, admin_user_working_hour_path(resource, wh)
+        end
+        column :start_at
+        column :end_at
+        column :break_minutes
+      end
+
+      div do
+        link_to 'New Working Hour', new_admin_user_working_hour_path(resource), class: 'button'
+      end
+    end
+
     # Add panel for expenses
-    panel "Expenses" do
+    panel 'Expenses' do
       table_for resource.expenses do
         column :id do |expense|
           link_to expense.id, admin_user_expense_path(resource, expense)
@@ -71,14 +87,14 @@ ActiveAdmin.register User do
         column :km
         column :factor
       end
-      
+
       div do
-        link_to "New Expense", new_admin_user_expense_path(resource), class: "button"
+        link_to 'New Expense', new_admin_user_expense_path(resource), class: 'button'
       end
     end
-    
+
     # Add panel for addresses
-    panel "Addresses" do
+    panel 'Addresses' do
       table_for resource.addresses do
         column :id do |address|
           link_to address.id, admin_address_path(address)
@@ -88,9 +104,10 @@ ActiveAdmin.register User do
         column :zip
         column :city
       end
-      
+
       div do
-        link_to "New Address", new_admin_address_path(addressable_type: 'User', addressable_id: resource.id), class: "button"
+        link_to 'New Address', new_admin_address_path(addressable_type: 'User', addressable_id: resource.id),
+                class: 'button'
       end
     end
   end
