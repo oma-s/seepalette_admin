@@ -11,6 +11,7 @@ class User < ApplicationRecord
 
   has_many :expenses, dependent: :restrict_with_error
   has_many :addresses, as: :addressable, dependent: :destroy
+  has_many :working_hours, dependent: :restrict_with_error
 
   validates :given_name, :family_name, presence: true
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
