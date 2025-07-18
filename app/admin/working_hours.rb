@@ -42,10 +42,22 @@ ActiveAdmin.register WorkingHour do
         "#{hours}h #{minutes}min"
       end
     end
-    column :user
+    column :user do |wh|
+      if wh.user
+        link_to wh.user.to_s, admin_user_path(wh.user)
+      end
+    end
     column :created_at
     column :updated_at
     actions
+
+    # Add total duration summary below the table
+    div style: 'padding: 20px; font-weight: bold;' do
+      total_minutes = collection.sum(:duration_minutes)
+      hours = total_minutes / 60
+      minutes = total_minutes % 60
+      "Hours total: #{hours}h #{minutes}min"
+    end
   end
 
   # Add or remove rows to toggle their visibility in the show action
@@ -64,7 +76,11 @@ ActiveAdmin.register WorkingHour do
           "#{hours}h #{minutes}min"
         end
       end
-      row :user
+      row :user do |wh|
+        if wh.user
+          link_to wh.user.to_s, admin_user_path(wh.user)
+        end
+      end
       row :created_at
       row :updated_at
     end
