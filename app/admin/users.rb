@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register User do
+  menu parent: 'Users', priority: 1, label: 'Users'
+
   permit_params :given_name, :family_name, :email, :password, :password_confirmation
 
   config.batch_actions = false

@@ -1,4 +1,6 @@
 ActiveAdmin.register Expense do
+  menu parent: 'Users', priority: 3, label: 'Expenses'
+
   belongs_to :user, optional: true
 
   # Specify parameters which should be permitted for assignment
