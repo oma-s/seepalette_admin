@@ -15,3 +15,8 @@ This is a little test app to try out AA 4. It works on top of a clone of the act
 Open http://localhost:3000
 
 A test user is in the seeds
+
+## Deployment
+
+See [Deploying with Coolify](docs/coolify.md) for the production container and
+Coolify configuration.
