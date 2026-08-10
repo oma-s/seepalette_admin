@@ -3,7 +3,7 @@
 ActiveAdmin.register User do
   menu parent: "Users", priority: 1, label: "Users"
 
-  permit_params :given_name, :family_name, :email, :password, :password_confirmation
+  permit_params :given_name, :family_name, :email, :password, :password_confirmation, :schedulable, :schedule_color, :admin_role
 
   config.batch_actions = false
 
@@ -37,6 +37,11 @@ ActiveAdmin.register User do
     column :given_name
     column :family_name
     column :email
+    column :schedulable
+    column("Planfarbe") do |user|
+      span User::SCHEDULE_COLORS.fetch(user.schedule_color), class: "schedule-color-label schedule-color-label--#{user.schedule_color}"
+    end
+    column("Admin") { |user| user.admin? }
     column :current_sign_in_at
     column :sign_in_count
     column :created_at
@@ -54,6 +59,11 @@ ActiveAdmin.register User do
       row :given_name
       row :family_name
       row :email
+      row :schedulable
+      row("Planfarbe") do |user|
+        span User::SCHEDULE_COLORS.fetch(user.schedule_color), class: "schedule-color-label schedule-color-label--#{user.schedule_color}"
+      end
+      row("Admin") { |user| user.admin? }
       row :current_sign_in_at
       row :sign_in_count
       row :created_at
@@ -77,14 +87,14 @@ ActiveAdmin.register User do
     end
 
     panel "Planned Shifts" do
-      table_for resource.work_shifts.chronological.includes(work_schedule_day: :work_schedule) do
+      table_for resource.work_shifts.chronological.includes(work_schedule_day_station: {work_schedule_day: :work_schedule}) do
         column :schedule do |shift|
           link_to shift.work_schedule.to_s, admin_work_schedule_path(shift.work_schedule)
         end
         column :day do |shift|
           shift.work_schedule_day.to_s
         end
-        column :position
+        column("Station") { |shift| shift.work_schedule_day_station.name }
         column :starts_at
         column :ends_at
       end
@@ -133,6 +143,13 @@ ActiveAdmin.register User do
       f.input :given_name, required: true
       f.input :family_name, required: true
       f.input :email
+      f.input :schedulable, label: "Für Dienstpläne auswählbar"
+      f.input :schedule_color,
+        as: :radio,
+        collection: User.schedule_color_options,
+        label: "Farbe im Dienstplan",
+        wrapper_html: {class: "schedule-color-picker"}
+      f.input :admin_role, as: :boolean, label: "Adminzugriff"
       f.input :password
       f.input :password_confirmation, required: true
     end
