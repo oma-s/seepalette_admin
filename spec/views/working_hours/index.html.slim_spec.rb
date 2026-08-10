@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "working_hours/index", type: :view do
   before(:each) do

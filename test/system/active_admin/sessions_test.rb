@@ -1,25 +1,24 @@
 # frozen_string_literal: true
 
-require 'application_system_test_case'
+require "application_system_test_case"
 
 class SessionsTest < ApplicationSystemTestCase
-  test 'visiting the root redirects to admin login' do
+  test "visiting the root redirects to admin login" do
     visit root_path
 
     assert_current_path new_user_session_path
-    assert_text 'Seepalette Admin Sign In'
+    assert_text "Seepalette Admin Sign In"
   end
 
-  test 'submitting the login form successfully' do
+  test "submitting the login form successfully" do
     default_admin_user
 
     visit new_user_session_path
 
-    fill_in 'Email', with: User::DEFAULT_EMAIL
-    fill_in 'Password', with: 'password'
-    click_on 'Sign In'
+    fill_in "Email", with: User::DEFAULT_EMAIL
+    fill_in "Password", with: "password"
+    click_on "Sign In"
 
-
-    assert_text 'Welcome to ActiveAdmin'
+    assert_text "Welcome to ActiveAdmin"
   end
 end

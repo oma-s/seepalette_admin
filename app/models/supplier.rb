@@ -19,5 +19,5 @@ class Supplier < ApplicationRecord
   has_many :products, dependent: :nullify
 
   validates :title, presence: true
-  validates :contact_email, format: { with: URI::MailTo::EMAIL_REGEXP }, allow_blank: true
+  validates :contact_email, format: {with: URI::MailTo::EMAIL_REGEXP}, allow_blank: true
 end

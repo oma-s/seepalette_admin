@@ -28,7 +28,7 @@ class WorkingHour < ApplicationRecord
   before_validation :extract_date_from_start_at
 
   validates :date, :start_at, :end_at, :break_minutes, presence: true
-  validates :break_minutes, numericality: { greater_than_or_equal_to: 0 }
+  validates :break_minutes, numericality: {greater_than_or_equal_to: 0}
   validate :end_time_after_start_time
 
   private
@@ -45,6 +45,6 @@ class WorkingHour < ApplicationRecord
   def end_time_after_start_time
     return if end_at > start_at
 
-    errors.add(:end_at, 'must be after start time')
+    errors.add(:end_at, "must be after start time")
   end
 end

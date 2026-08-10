@@ -1,65 +1,65 @@
 # frozen_string_literal: true
 
-source 'https://rubygems.org'
+source "https://rubygems.org"
 
-ruby file: '.ruby-version'
+ruby file: ".ruby-version"
 
-gem 'puma'
-gem 'rails', '~> 8.1.3'
+gem "puma"
+gem "rails", "~> 8.1.3"
 
 # Use sqlite3 for development and test environments
 group :development, :test do
-  gem 'sqlite3'
+  gem "sqlite3"
 end
 
 # Use PostgreSQL for production
 group :production do
-  gem 'pg'
+  gem "pg"
 end
 
-gem 'cssbundling-rails'
-gem 'importmap-rails'
-gem 'sprockets-rails'
+gem "cssbundling-rails"
+gem "importmap-rails"
+gem "sprockets-rails"
 
-gem 'activeadmin', '4.0.0.beta22' # github: "activeadmin/activeadmin", branch: "master"
-gem 'devise'
-gem 'pundit'
-gem 'rolify'
+gem "activeadmin", "4.0.0.beta22" # github: "activeadmin/activeadmin", branch: "master"
+gem "devise"
+gem "pundit"
+gem "rolify"
 
-gem 'slim-rails'
+gem "slim-rails"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: %i[windows jruby]
+gem "tzinfo-data", platforms: %i[windows jruby]
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
-  gem 'database_cleaner-active_record'
-  gem 'debug', platforms: %i[mri windows]
-  gem 'factory_bot_rails'
-  gem 'faker'
-  gem 'rspec-rails'
-  gem 'shoulda-matchers'
+  gem "database_cleaner-active_record"
+  gem "debug", platforms: %i[mri windows]
+  gem "factory_bot_rails"
+  gem "faker"
+  gem "rspec-rails"
+  gem "shoulda-matchers"
 end
 
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
-  gem 'capybara'
-  gem 'selenium-webdriver'
-  gem 'simplecov', require: false
-  gem 'simplecov-cobertura'
+  gem "capybara"
+  gem "selenium-webdriver"
+  gem "simplecov", require: false
+  gem "simplecov-cobertura"
 end
 
 group :development do
-  gem 'annotaterb'
-  gem 'brakeman', require: false
-  gem 'bundler-audit', require: false
-  gem 'foreman', require: false
-  gem 'letter_opener'
-  gem 'letter_opener_web'
-  gem 'ruby-lsp', require: false
-  gem 'standard', require: false
-  gem 'standard-rails', require: false
-  gem 'web-console'
+  gem "annotaterb"
+  gem "brakeman", require: false
+  gem "bundler-audit", require: false
+  gem "foreman", require: false
+  gem "letter_opener"
+  gem "letter_opener_web"
+  gem "ruby-lsp", require: false
+  gem "standard", require: false
+  gem "standard-rails", require: false
+  gem "web-console"
 end
 
 gem "rails-i18n", "~> 8.0"
