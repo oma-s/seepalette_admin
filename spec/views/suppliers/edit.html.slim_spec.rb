@@ -4,7 +4,7 @@ RSpec.describe "suppliers/edit", type: :view do
   let(:supplier) {
     Supplier.create!(
       title: "MyString",
-      contact_email: "MyString",
+      contact_email: "supplier@example.com",
       contact_phone: "MyString",
       personal_contact_name: "MyString",
       preffered_time_to_order: "MyString"

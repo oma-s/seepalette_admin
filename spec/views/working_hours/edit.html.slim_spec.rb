@@ -3,9 +3,10 @@ require 'rails_helper'
 RSpec.describe "working_hours/edit", type: :view do
   let(:working_hour) {
     WorkingHour.create!(
+      start_at: Time.zone.parse("2026-08-10 09:00"),
+      end_at: Time.zone.parse("2026-08-10 17:00"),
       break_minutes: 1,
-      duration_minutes: 1,
-      user: nil
+      user: create(:user)
     )
   }
 
