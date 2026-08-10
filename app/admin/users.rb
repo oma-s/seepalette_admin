@@ -25,7 +25,7 @@ ActiveAdmin.register User do
     def with_blocking_on_default_admin_user
       if resource.email == User::DEFAULT_EMAIL
         flash[:alert] = 'The default admin user cannot be modified.'
-        redirect_back fallback_location: admin_admin_users_path
+        redirect_back fallback_location: admin_users_path
       else
         yield
       end
