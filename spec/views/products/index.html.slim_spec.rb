@@ -32,16 +32,15 @@ RSpec.describe "products/index", type: :view do
 
   it "renders a list of products" do
     render
-    cell_selector = 'div>p'
-    assert_select cell_selector, text: Regexp.new("Title".to_s), count: 2
-    assert_select cell_selector, text: Regexp.new("MyText".to_s), count: 2
-    assert_select cell_selector, text: Regexp.new("9.99".to_s), count: 2
-    assert_select cell_selector, text: Regexp.new("9.99".to_s), count: 2
-    assert_select cell_selector, text: Regexp.new("9.99".to_s), count: 2
-    assert_select cell_selector, text: Regexp.new("Stock Unit".to_s), count: 2
-    assert_select cell_selector, text: Regexp.new(2.to_s), count: 2
-    assert_select cell_selector, text: Regexp.new(false.to_s), count: 2
-    assert_select cell_selector, text: Regexp.new(false.to_s), count: 2
-    assert_select cell_selector, text: Regexp.new(nil.to_s), count: 2
+    assert_select "#products > div", count: 2
+    assert_select "#products > div p", text: /Title:\s*Title/, count: 2
+    assert_select "#products > div p", text: /Menu description:\s*MyText/, count: 2
+    assert_select "#products > div p", text: /Ekp:\s*9.99/, count: 2
+    assert_select "#products > div p", text: /Uvp:\s*9.99/, count: 2
+    assert_select "#products > div p", text: /Vkp:\s*9.99/, count: 2
+    assert_select "#products > div p", text: /Stock unit:\s*Stock Unit/, count: 2
+    assert_select "#products > div p", text: /Stock target:\s*2/, count: 2
+    assert_select "#products > div p", text: /Print on menu:\s*false/, count: 2
+    assert_select "#products > div p", text: /Active:\s*false/, count: 2
   end
 end

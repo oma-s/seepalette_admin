@@ -3,7 +3,9 @@ require 'rails_helper'
 RSpec.describe "expenses/edit", type: :view do
   let(:expense) {
     Expense.create!(
-      user: nil,
+      user: create(:user),
+      date: Date.new(2026, 8, 10),
+      purpose: "Business trip",
       start_address: "MyString",
       end_address: "MyString",
       km: 1,
@@ -20,7 +22,9 @@ RSpec.describe "expenses/edit", type: :view do
 
     assert_select "form[action=?][method=?]", expense_path(expense), "post" do
 
-      assert_select "input[name=?]", "expense[user_id]"
+      assert_select "select[name=?]", "expense[user_id]"
+
+      assert_select "input[name=?]", "expense[date]"
 
       assert_select "input[name=?]", "expense[start_address]"
 

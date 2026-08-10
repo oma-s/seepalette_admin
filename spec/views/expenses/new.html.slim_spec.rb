@@ -16,7 +16,9 @@ RSpec.describe "expenses/new", type: :view do
 
     assert_select "form[action=?][method=?]", expenses_path, "post" do
 
-      assert_select "input[name=?]", "expense[user_id]"
+      assert_select "select[name=?]", "expense[user_id]"
+
+      assert_select "input[name=?]", "expense[date]"
 
       assert_select "input[name=?]", "expense[start_address]"
 
