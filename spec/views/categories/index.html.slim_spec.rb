@@ -16,8 +16,7 @@ RSpec.describe "categories/index", type: :view do
 
   it "renders a list of categories" do
     render
-    cell_selector = 'div>p'
-    assert_select cell_selector, text: Regexp.new("Title".to_s), count: 2
-    assert_select cell_selector, text: Regexp.new(nil.to_s), count: 2
+    assert_select "#categories > div", count: 2
+    assert_select "#categories > div p", text: /Title:\s*Title/, count: 2
   end
 end
