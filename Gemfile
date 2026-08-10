@@ -21,7 +21,7 @@ gem 'cssbundling-rails'
 gem 'importmap-rails'
 gem 'sprockets-rails'
 
-gem 'activeadmin', '4.0.0.beta15' # github: "activeadmin/activeadmin", branch: "master"
+gem 'activeadmin', '4.0.0.beta22' # github: "activeadmin/activeadmin", branch: "master"
 gem 'devise'
 gem 'pundit'
 gem 'rolify'
