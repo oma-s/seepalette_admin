@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register User do
+  menu parent: 'Users', priority: 1, label: 'Users'
+
   permit_params :given_name, :family_name, :email, :password, :password_confirmation
 
   config.batch_actions = false
@@ -23,7 +25,7 @@ ActiveAdmin.register User do
     def with_blocking_on_default_admin_user
       if resource.email == User::DEFAULT_EMAIL
         flash[:alert] = 'The default admin user cannot be modified.'
-        redirect_back fallback_location: admin_admin_users_path
+        redirect_back fallback_location: admin_users_path
       else
         yield
       end

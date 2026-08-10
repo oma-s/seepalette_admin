@@ -1,4 +1,6 @@
 ActiveAdmin.register ProductFamily do
+  menu parent: 'Products', priority: 3, label: 'Product Families'
+
   # Specify parameters which should be permitted for assignment
   permit_params :title
 

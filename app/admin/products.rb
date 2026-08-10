@@ -1,4 +1,6 @@
 ActiveAdmin.register Product do
+  menu parent: 'Products', priority: 1, label: 'Products'
+  
   belongs_to :supplier, optional: true
   belongs_to :category, optional: true
 
