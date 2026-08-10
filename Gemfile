@@ -50,9 +50,16 @@ group :test do
 end
 
 group :development do
-  gem 'annotate'
+  gem 'annotaterb'
+  gem 'brakeman', require: false
+  gem 'bundler-audit', require: false
+  gem 'foreman', require: false
   gem 'letter_opener'
   gem 'letter_opener_web'
+  gem 'ruby-lsp', require: false
+  gem 'standard', require: false
+  gem 'standard-rails', require: false
+  gem 'web-console'
 end
 
 gem "rails-i18n", "~> 8.0"

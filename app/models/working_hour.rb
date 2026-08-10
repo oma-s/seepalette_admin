@@ -1,3 +1,26 @@
+# == Schema Information
+#
+# Table name: working_hours
+#
+#  id               :integer          not null, primary key
+#  break_minutes    :integer
+#  date             :date
+#  duration_minutes :integer
+#  end_at           :datetime
+#  start_at         :datetime
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  user_id          :integer          not null
+#
+# Indexes
+#
+#  index_working_hours_on_user_id  (user_id)
+#
+# Foreign Keys
+#
+#  user_id  (user_id => users.id)
+#
+
 class WorkingHour < ApplicationRecord
   belongs_to :user
 

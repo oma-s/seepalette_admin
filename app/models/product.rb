@@ -1,3 +1,33 @@
+# == Schema Information
+#
+# Table name: products
+#
+#  id               :integer          not null, primary key
+#  active           :boolean          default(FALSE)
+#  ekp              :decimal(, )
+#  menu_description :text
+#  print_on_menu    :boolean
+#  stock_target     :integer
+#  stock_unit       :string
+#  title            :string           not null
+#  uvp              :decimal(, )
+#  vkp              :decimal(, )
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  category_id      :integer
+#  supplier_id      :integer
+#
+# Indexes
+#
+#  index_products_on_category_id  (category_id)
+#  index_products_on_supplier_id  (supplier_id)
+#
+# Foreign Keys
+#
+#  category_id  (category_id => categories.id)
+#  supplier_id  (supplier_id => suppliers.id)
+#
+
 #
 # EKP: Einkaufspreis (Einkaufspreis)
 # UVP: Unverbindliche Preisempfehlung (Unverbindliche Preisempfehlung)
