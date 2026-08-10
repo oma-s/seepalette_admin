@@ -1,4 +1,6 @@
 ActiveAdmin.register Address do
+  menu false
+
   # Specify parameters which should be permitted for assignment
   permit_params :address_line1, :address_line2, :zip, :city, :addressable_type, :addressable_id
 
