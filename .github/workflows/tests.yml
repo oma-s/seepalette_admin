@@ -14,6 +14,14 @@ env:
   COVERAGE_RETENTION_DAYS: 3
 
 jobs:
+  build_image:
+    name: Build production image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Build production image
+        run: docker build --tag seepalette-admin:test .
+
   run_tests:
     name: Run tests
     runs-on: ubuntu-latest
@@ -42,6 +50,7 @@ jobs:
         run: bin/rails zeitwerk:check
       - name: Check production assets
         env:
+          APP_HOST: example.invalid
           RAILS_ENV: production
           SECRET_KEY_BASE_DUMMY: 1
           SKIP_BUN_INSTALL: 1
