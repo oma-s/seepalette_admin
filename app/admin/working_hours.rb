@@ -1,4 +1,6 @@
 ActiveAdmin.register WorkingHour do
+  menu parent: 'Users', priority: 2, label: 'Working Hours'
+  
   belongs_to :user, optional: true
 
   # Specify parameters which should be permitted for assignment
@@ -43,9 +45,7 @@ ActiveAdmin.register WorkingHour do
       end
     end
     column :user do |wh|
-      if wh.user
-        link_to wh.user.to_s, admin_user_path(wh.user)
-      end
+      link_to wh.user.to_s, admin_user_path(wh.user) if wh.user
     end
     column :created_at
     column :updated_at
@@ -77,9 +77,7 @@ ActiveAdmin.register WorkingHour do
         end
       end
       row :user do |wh|
-        if wh.user
-          link_to wh.user.to_s, admin_user_path(wh.user)
-        end
+        link_to wh.user.to_s, admin_user_path(wh.user) if wh.user
       end
       row :created_at
       row :updated_at

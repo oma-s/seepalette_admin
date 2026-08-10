@@ -1,4 +1,6 @@
 ActiveAdmin.register Supplier do
+  menu parent: 'Products', priority: 4, label: 'Suppliers'
+
   # Specify parameters which should be permitted for assignment
   permit_params :title, :description, :website, :contact_email, :contact_phone, :personal_contact_name,
                 :preffered_time_to_order
