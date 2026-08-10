@@ -76,6 +76,20 @@ ActiveAdmin.register User do
       end
     end
 
+    panel "Planned Shifts" do
+      table_for resource.work_shifts.chronological.includes(work_schedule_day: :work_schedule) do
+        column :schedule do |shift|
+          link_to shift.work_schedule.to_s, admin_work_schedule_path(shift.work_schedule)
+        end
+        column :day do |shift|
+          shift.work_schedule_day.to_s
+        end
+        column :position
+        column :starts_at
+        column :ends_at
+      end
+    end
+
     # Add panel for expenses
     panel "Expenses" do
       table_for resource.expenses do

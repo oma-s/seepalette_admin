@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_07_09_153041) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_10_183000) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.integer "author_id"
     t.string "author_type"
@@ -133,6 +133,45 @@ ActiveRecord::Schema[8.1].define(version: 2025_07_09_153041) do
     t.index ["user_id"], name: "index_users_roles_on_user_id"
   end
 
+  create_table "work_schedule_days", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.date "date", null: false
+    t.text "notes"
+    t.string "title"
+    t.datetime "updated_at", null: false
+    t.integer "work_schedule_id", null: false
+    t.index ["work_schedule_id", "date"], name: "index_work_schedule_days_on_work_schedule_id_and_date", unique: true
+    t.index ["work_schedule_id"], name: "index_work_schedule_days_on_work_schedule_id"
+  end
+
+  create_table "work_schedules", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.date "ends_on", null: false
+    t.text "notes"
+    t.date "starts_on", null: false
+    t.integer "status", default: 0, null: false
+    t.string "title", null: false
+    t.datetime "updated_at", null: false
+    t.index ["starts_on", "ends_on"], name: "index_work_schedules_on_starts_on_and_ends_on"
+    t.index ["status"], name: "index_work_schedules_on_status"
+  end
+
+  create_table "work_shifts", force: :cascade do |t|
+    t.integer "break_minutes", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "ends_at", null: false
+    t.text "notes"
+    t.string "position", null: false
+    t.datetime "starts_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.integer "work_schedule_day_id", null: false
+    t.index ["user_id", "starts_at", "ends_at"], name: "index_work_shifts_on_user_id_and_starts_at_and_ends_at"
+    t.index ["user_id"], name: "index_work_shifts_on_user_id"
+    t.index ["work_schedule_day_id", "starts_at"], name: "index_work_shifts_on_work_schedule_day_id_and_starts_at"
+    t.index ["work_schedule_day_id"], name: "index_work_shifts_on_work_schedule_day_id"
+  end
+
   create_table "working_hours", force: :cascade do |t|
     t.integer "break_minutes"
     t.datetime "created_at", null: false
@@ -149,5 +188,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_07_09_153041) do
   add_foreign_key "expenses", "users"
   add_foreign_key "products", "categories"
   add_foreign_key "products", "suppliers"
+  add_foreign_key "work_schedule_days", "work_schedules"
+  add_foreign_key "work_shifts", "users"
+  add_foreign_key "work_shifts", "work_schedule_days"
   add_foreign_key "working_hours", "users"
 end
