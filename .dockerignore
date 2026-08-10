@@ -1,0 +1,33 @@
+# Git and local tooling
+/.git/
+/.gitignore
+/.bundle/
+/.ruby-lsp/
+
+# Secrets and environment files
+/.env*
+/config/master.key
+/config/credentials/*.key
+
+# Runtime and generated files
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+/tmp/pids/*
+!/tmp/pids/.keep
+/storage/*
+!/storage/.keep
+/node_modules/
+/coverage/
+/app/assets/builds/*
+!/app/assets/builds/.keep
+/public/assets/
+
+# Files not required by the production image
+/.github/
+/spec/
+/test/
+/.devcontainer/
+/Dockerfile*
+/.dockerignore
