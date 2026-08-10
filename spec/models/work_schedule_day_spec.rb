@@ -3,38 +3,31 @@
 require "rails_helper"
 
 RSpec.describe WorkScheduleDay, type: :model do
-  it "is valid within its schedule period" do
-    schedule = build(:work_schedule)
-    day = build(:work_schedule_day, work_schedule: schedule, date: schedule.starts_on + 1.day)
+  it "accepts a configurable quarter-hour grid ending on the following day" do
+    day = create(:work_schedule).work_schedule_days.first
 
-    expect(day).to be_valid
+    expect(day.update(grid_start_minute: 8 * 60 + 15, grid_end_minute: 26 * 60)).to be(true)
   end
 
-  it "rejects a date outside its schedule period" do
-    schedule = build(:work_schedule)
-    day = build(:work_schedule_day, work_schedule: schedule, date: schedule.ends_on + 1.day)
+  it "rejects grid boundaries outside the quarter-hour raster" do
+    day = create(:work_schedule).work_schedule_days.first
 
-    expect(day).not_to be_valid
-    expect(day.errors[:date]).to include("must be within the schedule date range")
+    expect(day.update(grid_start_minute: 421)).to be(false)
+    expect(day.errors[:base]).to include("Zeiten müssen auf 15 Minuten liegen")
   end
 
-  it "rejects overlapping nested shifts for the same user" do
-    day = build(:work_schedule_day)
-    user = build(:user)
-    day.work_shifts.build(
-      user: user,
-      position: "Bar",
-      starts_at: day.date.in_time_zone.change(hour: 10),
-      ends_at: day.date.in_time_zone.change(hour: 16)
-    )
-    day.work_shifts.build(
-      user: user,
-      position: "Runner",
-      starts_at: day.date.in_time_zone.change(hour: 15),
-      ends_at: day.date.in_time_zone.change(hour: 18)
-    )
+  it "copies selected day content atomically" do
+    schedule = create(:work_schedule, starts_on: Date.new(2026, 8, 7), ends_on: Date.new(2026, 8, 8))
+    source, target = schedule.work_schedule_days.to_a
+    source.day_notices.create!(text: "Zapfanlagenprüfung", severity: "critical")
+    shift = create(:work_shift, work_schedule_day_station: source.work_schedule_day_stations.first)
 
-    expect(day).not_to be_valid
-    expect(day.errors[:base]).to include("contains overlapping shifts for the same user")
+    target.copy_from!(source, include_stations: true, include_notices: true, include_shifts: true)
+
+    copied = target.work_shifts.first
+    expect(target.day_notices.pluck(:text)).to include("Zapfanlagenprüfung")
+    expect(target.day_notices.first.severity).to eq("critical")
+    expect(copied.user).to eq(shift.user)
+    expect(copied.starts_at.to_date).to eq(target.date)
   end
 end

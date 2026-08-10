@@ -14,11 +14,21 @@ class UsersTest < ApplicationSystemTestCase
   end
 
   test "visiting the show" do
-    sign_in default_admin_user, scope: :user
+    admin = default_admin_user
+    schedule = WorkSchedule.create!(title: "Testplan", starts_on: Date.new(2026, 8, 10), ends_on: Date.new(2026, 8, 10))
+    day_station = schedule.work_schedule_days.first.work_schedule_day_stations.first
+    day_station.work_shifts.create!(
+      user: admin,
+      starts_at: Time.zone.local(2026, 8, 10, 10),
+      ends_at: Time.zone.local(2026, 8, 10, 12)
+    )
+    sign_in admin, scope: :user
 
-    visit admin_user_path(default_admin_user)
+    visit admin_user_path(admin)
 
     assert_text "admin@example.com"
+    assert_text "Testplan"
+    assert_text day_station.name
     assert_selector "a", text: "Edit User"
     assert_selector "a", text: "Delete User"
   end
@@ -27,6 +37,9 @@ class UsersTest < ApplicationSystemTestCase
     sign_in default_admin_user, scope: :user
 
     visit new_admin_user_path
+
+    assert_selector "input[name='user[schedule_color]']", count: User::SCHEDULE_COLORS.size
+    assert_selector "input[name='user[schedule_color]']:checked", count: 1
 
     page.execute_script(<<~JAVASCRIPT)
       const form = document.querySelector('form[action="/admin/users"]');
