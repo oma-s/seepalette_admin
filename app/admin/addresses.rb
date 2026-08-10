@@ -37,7 +37,7 @@ ActiveAdmin.register Address do
       if address.addressable
         auto_link(address.addressable, address.addressable.to_s)
       else
-        'N/A'
+        "N/A"
       end
     end
     column :created_at
@@ -58,7 +58,7 @@ ActiveAdmin.register Address do
         if address.addressable
           auto_link(address.addressable, address.addressable.to_s)
         else
-          'N/A'
+          "N/A"
         end
       end
       row :created_at
@@ -80,9 +80,9 @@ ActiveAdmin.register Address do
       # Let's just show all users and suppliers for now
       addressable_collection =
         case f.object.addressable_type
-        when 'User'
+        when "User"
           User.all.map { |u| [u.to_s, u.id] }
-        when 'Supplier'
+        when "Supplier"
           Supplier.all.map { |s| [s.to_s, s.id] }
         else
           []

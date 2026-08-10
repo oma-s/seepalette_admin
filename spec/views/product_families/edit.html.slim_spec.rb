@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "product_families/edit", type: :view do
   let(:product_family) {
@@ -15,7 +15,6 @@ RSpec.describe "product_families/edit", type: :view do
     render
 
     assert_select "form[action=?][method=?]", product_family_path(product_family), "post" do
-
       assert_select "input[name=?]", "product_family[title]"
     end
   end

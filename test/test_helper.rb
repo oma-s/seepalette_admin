@@ -1,17 +1,17 @@
 # frozen_string_literal: true
 
-if ENV.fetch('COVERAGE', false)
-  require 'simplecov'
-  require 'simplecov-cobertura'
+if ENV.fetch("COVERAGE", false)
+  require "simplecov"
+  require "simplecov-cobertura"
   SimpleCov.start do
     add_filter %r{^/test/}
     formatter SimpleCov::Formatter::CoberturaFormatter
   end
 end
 
-ENV['RAILS_ENV'] ||= 'test'
-require_relative '../config/environment'
-require 'rails/test_help'
+ENV["RAILS_ENV"] ||= "test"
+require_relative "../config/environment"
+require "rails/test_help"
 
 module ActiveSupport
   class TestCase
@@ -26,10 +26,10 @@ module ActiveSupport
 
     def default_admin_user
       @default_admin_user ||= User.find_or_create_by!(email: User::DEFAULT_EMAIL) do |user|
-        user.given_name = 'Admin'
-        user.family_name = 'Test'
-        user.password = 'password'
-        user.password_confirmation = 'password'
+        user.given_name = "Admin"
+        user.family_name = "Test"
+        user.password = "password"
+        user.password_confirmation = "password"
       end
     end
   end

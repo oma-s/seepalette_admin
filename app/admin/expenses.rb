@@ -1,5 +1,5 @@
 ActiveAdmin.register Expense do
-  menu parent: 'Users', priority: 3, label: 'Expenses'
+  menu parent: "Users", priority: 3, label: "Expenses"
 
   belongs_to :user, optional: true
 
@@ -70,11 +70,11 @@ ActiveAdmin.register Expense do
     f.inputs do
       f.input :user
       f.input :date
-      f.input :start_address, input_html: { value: home_address || '' }
-      f.input :end_address, input_html: { value: home_address || '' }
-      f.input :purpose, as: :text, input_html: { rows: 3 }
+      f.input :start_address, input_html: {value: home_address || ""}
+      f.input :end_address, input_html: {value: home_address || ""}
+      f.input :purpose, as: :text, input_html: {rows: 3}
       f.input :km
-      f.input :factor, as: :number, step: 0.01, input_html: { min: 0.1, value: 0.3 }
+      f.input :factor, as: :number, step: 0.01, input_html: {min: 0.1, value: 0.3}
     end
     f.actions
   end
