@@ -39,5 +39,5 @@ class Product < ApplicationRecord
   belongs_to :supplier, optional: true
 
   validates :title, presence: true
-  validates :ekp, :uvp, :vkp, :stock_target, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
+  validates :ekp, :uvp, :vkp, :stock_target, numericality: {greater_than_or_equal_to: 0}, allow_nil: true
 end

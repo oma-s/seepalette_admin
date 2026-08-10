@@ -1,2 +1,6 @@
 plugins:
   - standard-rails
+
+ignore:
+  - "app/models/role.rb":
+      - Rails/HasAndBelongsToMany

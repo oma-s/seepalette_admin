@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "product_families/index", type: :view do
   before(:each) do
@@ -14,7 +14,7 @@ RSpec.describe "product_families/index", type: :view do
 
   it "renders a list of product_families" do
     render
-    cell_selector = 'div>p'
-    assert_select cell_selector, text: Regexp.new("Title".to_s), count: 2
+    cell_selector = "div>p"
+    assert_select cell_selector, text: Regexp.new("Title"), count: 2
   end
 end

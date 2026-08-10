@@ -1,12 +1,12 @@
 ActiveAdmin.register Product do
-  menu parent: 'Products', priority: 1, label: 'Products'
-  
+  menu parent: "Products", priority: 1, label: "Products"
+
   belongs_to :supplier, optional: true
   belongs_to :category, optional: true
 
   # Specify parameters which should be permitted for assignment
   permit_params :title, :menu_description, :ekp, :uvp, :vkp, :stock_unit, :stock_target, :print_on_menu, :active,
-                :category_id
+    :category_id
 
   # or consider:
   #
@@ -78,7 +78,7 @@ ActiveAdmin.register Product do
     f.inputs do
       f.input :supplier
       f.input :title
-      f.input :menu_description, as: :text, input_html: { rows: 3 }
+      f.input :menu_description, as: :text, input_html: {rows: 3}
       f.input :ekp
       f.input :uvp
       f.input :vkp

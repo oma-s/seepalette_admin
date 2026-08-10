@@ -8,7 +8,7 @@ ActiveAdmin.setup do |config|
   # by extracting the _site_header partial into your project
   # to use your own logo, styles, etc.
   #
-  config.site_title = 'Seepalette Admin'
+  config.site_title = "Seepalette Admin"
   # config.footer = "Kontakt: info@seepalette-dobbrokow.de"
   # config.site_title_image = "https://www.google.com/images/logos/google_logo_41.png"
 

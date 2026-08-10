@@ -1,5 +1,5 @@
 ActiveAdmin.register Category do
-  menu parent: 'Products', priority: 2, label: 'Categories'
+  menu parent: "Products", priority: 2, label: "Categories"
 
   belongs_to :product_family, optional: true
 

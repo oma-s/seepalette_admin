@@ -1,6 +1,6 @@
 ActiveAdmin.register WorkingHour do
-  menu parent: 'Users', priority: 2, label: 'Working Hours'
-  
+  menu parent: "Users", priority: 2, label: "Working Hours"
+
   belongs_to :user, optional: true
 
   # Specify parameters which should be permitted for assignment
@@ -52,7 +52,7 @@ ActiveAdmin.register WorkingHour do
     actions
 
     # Add total duration summary below the table
-    div style: 'padding: 20px; font-weight: bold;' do
+    div style: "padding: 20px; font-weight: bold;" do
       total_minutes = collection.sum(:duration_minutes)
       hours = total_minutes / 60
       minutes = total_minutes % 60
