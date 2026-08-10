@@ -17,10 +17,6 @@
 #
 #  index_expenses_on_user_id  (user_id)
 #
-# Foreign Keys
-#
-#  user_id  (user_id => users.id)
-#
 
 class Expense < ApplicationRecord
   belongs_to :user

@@ -22,11 +22,6 @@
 #  index_products_on_category_id  (category_id)
 #  index_products_on_supplier_id  (supplier_id)
 #
-# Foreign Keys
-#
-#  category_id  (category_id => categories.id)
-#  supplier_id  (supplier_id => suppliers.id)
-#
 
 #
 # EKP: Einkaufspreis (Einkaufspreis)
