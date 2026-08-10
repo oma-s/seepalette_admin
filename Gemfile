@@ -5,7 +5,7 @@ source 'https://rubygems.org'
 ruby file: '.ruby-version'
 
 gem 'puma'
-gem 'rails', '~> 8.0.2'
+gem 'rails', '~> 8.1.3'
 
 # Use sqlite3 for development and test environments
 group :development, :test do
