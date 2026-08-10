@@ -1,6 +1,13 @@
 # Seepalette Admin
 
-This is a little test app to try out AA 4. It works on top of a clone of the active admin demo repo.
+This is a little test app to try out Active Admin 4.
+
+## Project origin
+
+This project started as a clone of the
+[Active Admin demo application](https://github.com/activeadmin/demo.activeadmin.info).
+The original upstream history is preserved in the
+`archive/active-admin-demo-history` tag.
 
 ## Development Setup
 
