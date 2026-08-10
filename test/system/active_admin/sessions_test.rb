@@ -6,14 +6,14 @@ class SessionsTest < ApplicationSystemTestCase
   test 'visiting the root redirects to admin login' do
     visit root_path
 
-    assert_current_path new_admin_user_session_path
-    assert_text 'Active Admin Demo Sign In'
+    assert_current_path new_user_session_path
+    assert_text 'Seepalette Admin Sign In'
   end
 
   test 'submitting the login form successfully' do
     default_admin_user
 
-    visit new_admin_user_session_path
+    visit new_user_session_path
 
     fill_in 'Email', with: User::DEFAULT_EMAIL
     fill_in 'Password', with: 'password'

@@ -25,11 +25,12 @@ module ActiveSupport
     include Devise::Test::IntegrationHelpers
 
     def default_admin_user
-      @default_admin_user ||= User.create!(
-        email: User::DEFAULT_EMAIL,
-        password: 'password',
-        password_confirmation: 'password'
-      )
+      @default_admin_user ||= User.find_or_create_by!(email: User::DEFAULT_EMAIL) do |user|
+        user.given_name = 'Admin'
+        user.family_name = 'Test'
+        user.password = 'password'
+        user.password_confirmation = 'password'
+      end
     end
   end
 end

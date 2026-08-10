@@ -27,7 +27,7 @@ jobs:
         env:
           COVERAGE: true
           RAILS_ENV: test
-        run: bin/rails db:setup test:all
+        run: bin/rails db:test:prepare test:all
       - name: Upload screenshots from failed system tests
         uses: actions/upload-artifact@v4
         if: failure()
