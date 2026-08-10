@@ -13,10 +13,6 @@
 #
 #  index_categories_on_product_family_id  (product_family_id)
 #
-# Foreign Keys
-#
-#  product_family_id  (product_family_id => product_families.id)
-#
 
 class Category < ApplicationRecord
   belongs_to :product_family, optional: true
