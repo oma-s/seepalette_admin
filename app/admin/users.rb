@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register User do
-  menu parent: 'Users', priority: 1, label: 'Users'
+  menu parent: "Users", priority: 1, label: "Users"
 
   permit_params :given_name, :family_name, :email, :password, :password_confirmation
 
@@ -24,8 +24,8 @@ ActiveAdmin.register User do
 
     def with_blocking_on_default_admin_user
       if resource.email == User::DEFAULT_EMAIL
-        flash[:alert] = 'The default admin user cannot be modified.'
-        redirect_back fallback_location: admin_users_path
+        flash[:alert] = "The default admin user cannot be modified."
+        redirect_back_or_to(admin_users_path)
       else
         yield
       end
@@ -61,7 +61,7 @@ ActiveAdmin.register User do
     end
 
     # Add panel for working hours
-    panel 'Working Hours' do
+    panel "Working Hours" do
       table_for resource.working_hours do
         column :id do |wh|
           link_to wh.id, admin_user_working_hour_path(resource, wh)
@@ -72,12 +72,12 @@ ActiveAdmin.register User do
       end
 
       div do
-        link_to 'New Working Hour', new_admin_user_working_hour_path(resource), class: 'button'
+        link_to "New Working Hour", new_admin_user_working_hour_path(resource), class: "button"
       end
     end
 
     # Add panel for expenses
-    panel 'Expenses' do
+    panel "Expenses" do
       table_for resource.expenses do
         column :id do |expense|
           link_to expense.id, admin_user_expense_path(resource, expense)
@@ -91,12 +91,12 @@ ActiveAdmin.register User do
       end
 
       div do
-        link_to 'New Expense', new_admin_user_expense_path(resource), class: 'button'
+        link_to "New Expense", new_admin_user_expense_path(resource), class: "button"
       end
     end
 
     # Add panel for addresses
-    panel 'Addresses' do
+    panel "Addresses" do
       table_for resource.addresses do
         column :id do |address|
           link_to address.id, admin_address_path(address)
@@ -108,8 +108,8 @@ ActiveAdmin.register User do
       end
 
       div do
-        link_to 'New Address', new_admin_address_path(addressable_type: 'User', addressable_id: resource.id),
-                class: 'button'
+        link_to "New Address", new_admin_address_path(addressable_type: "User", addressable_id: resource.id),
+          class: "button"
       end
     end
   end

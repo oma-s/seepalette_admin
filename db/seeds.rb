@@ -10,10 +10,10 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-require 'faker'
+require "faker"
 
-User.create_with(given_name: 'Admin', family_name: 'Test', password: 'password',
-                  password_confirmation: 'password').find_or_create_by!(email: User::DEFAULT_EMAIL)
+User.create_with(given_name: "Admin", family_name: "Test", password: "password",
+  password_confirmation: "password").find_or_create_by!(email: User::DEFAULT_EMAIL)
 
 # Create 5 users
 users = 5.times.map do |i|
@@ -21,8 +21,8 @@ users = 5.times.map do |i|
     email: "user#{i + 1}@example.com",
     given_name: Faker::Name.first_name,
     family_name: Faker::Name.last_name,
-    password: 'password',
-    password_confirmation: 'password'
+    password: "password",
+    password_confirmation: "password"
   )
 end
 
@@ -30,7 +30,7 @@ end
 users.each do |user|
   rand(20..30).times do
     # Random date between 2025-05-07 and today
-    start_date = Faker::Date.between(from: Date.new(2025, 5, 7), to: Date.today)
+    start_date = Faker::Date.between(from: Date.new(2025, 5, 7), to: Time.zone.today)
     # Random start time between 10:00 and 16:00, rounded to nearest 30 min
     hour = rand(10..16)
     minute = [0, 30].sample
@@ -42,12 +42,12 @@ users.each do |user|
 
     # Break logic
     break_minutes = if duration_hours >= 6
-                      60
-                    elsif duration_hours >= 3
-                      30
-                    else
-                      0
-                    end
+      60
+    elsif duration_hours >= 3
+      30
+    else
+      0
+    end
 
     WorkingHour.create!(
       user: user,

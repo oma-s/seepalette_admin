@@ -1,3 +1,26 @@
+# == Schema Information
+#
+# Table name: working_hours
+#
+#  id               :integer          not null, primary key
+#  break_minutes    :integer
+#  date             :date
+#  duration_minutes :integer
+#  end_at           :datetime
+#  start_at         :datetime
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  user_id          :integer          not null
+#
+# Indexes
+#
+#  index_working_hours_on_user_id  (user_id)
+#
+# Foreign Keys
+#
+#  user_id  (user_id => users.id)
+#
+
 class WorkingHour < ApplicationRecord
   belongs_to :user
 
@@ -5,7 +28,7 @@ class WorkingHour < ApplicationRecord
   before_validation :extract_date_from_start_at
 
   validates :date, :start_at, :end_at, :break_minutes, presence: true
-  validates :break_minutes, numericality: { greater_than_or_equal_to: 0 }
+  validates :break_minutes, numericality: {greater_than_or_equal_to: 0}
   validate :end_time_after_start_time
 
   private
@@ -22,6 +45,6 @@ class WorkingHour < ApplicationRecord
   def end_time_after_start_time
     return if end_at > start_at
 
-    errors.add(:end_at, 'must be after start time')
+    errors.add(:end_at, "must be after start time")
   end
 end
