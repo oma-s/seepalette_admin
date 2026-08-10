@@ -30,7 +30,7 @@ module ActiveSupport
         user.family_name = "Test"
         user.password = "password"
         user.password_confirmation = "password"
-      end
+      end.tap { |user| user.add_role(:admin) }
     end
   end
 end

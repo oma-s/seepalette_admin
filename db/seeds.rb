@@ -12,8 +12,9 @@
 
 require "faker"
 
-User.create_with(given_name: "Admin", family_name: "Test", password: "password",
+admin = User.create_with(given_name: "Admin", family_name: "Test", password: "password",
   password_confirmation: "password").find_or_create_by!(email: User::DEFAULT_EMAIL)
+admin.add_role(:admin)
 
 # Create 5 users
 users = 5.times.map do |i|

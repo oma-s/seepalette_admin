@@ -1,0 +1,21 @@
+<% @page_title = "Dienstplan: #{@work_schedule.title}" %>
+
+<div
+  id="work-schedule-planner"
+  class="work-schedule-planner"
+  data-planner-data-url="<%= planner_data_admin_work_schedule_path(@work_schedule) %>"
+  data-save-shift-url="<%= save_shift_admin_work_schedule_path(@work_schedule) %>"
+  data-delete-shift-url="<%= delete_shift_admin_work_schedule_path(@work_schedule) %>"
+  data-save-day-url="<%= save_day_admin_work_schedule_path(@work_schedule) %>"
+  data-save-notice-url="<%= save_notice_admin_work_schedule_path(@work_schedule) %>"
+  data-delete-notice-url="<%= delete_notice_admin_work_schedule_path(@work_schedule) %>"
+  data-add-station-url="<%= add_station_admin_work_schedule_path(@work_schedule) %>"
+  data-remove-station-url="<%= remove_station_admin_work_schedule_path(@work_schedule) %>"
+  data-copy-day-url="<%= copy_day_admin_work_schedule_path(@work_schedule) %>"
+  data-duplicate-schedule-url="<%= duplicate_schedule_admin_work_schedule_path(@work_schedule) %>"
+  data-publish-url="<%= publish_schedule_admin_work_schedule_path(@work_schedule) %>"
+>
+  <div class="planner-loading" role="status">Dienstplan wird geladen …</div>
+</div>
+
+<%= javascript_include_tag "work_schedule_planner", type: "module" %>
