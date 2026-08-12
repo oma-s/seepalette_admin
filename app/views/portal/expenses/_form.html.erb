@@ -1,0 +1,38 @@
+<%= form_with model: [:portal, expense], class: "portal-form" do |form| %>
+  <% if expense.errors.any? %>
+    <div class="portal-form-errors" role="alert">
+      <strong>Bitte überprüfe deine Angaben:</strong>
+      <ul><% expense.errors.full_messages.each do |message| %><li><%= message %></li><% end %></ul>
+    </div>
+  <% end %>
+
+  <div class="portal-field">
+    <%= form.label :date, "Datum" %>
+    <%= form.date_field :date, required: true, max: Time.zone.today.iso8601 %>
+  </div>
+  <div class="portal-field">
+    <%= form.label :purpose, "Zweck der Fahrt" %>
+    <%= form.text_area :purpose, rows: 3, required: true %>
+  </div>
+  <div class="portal-field">
+    <%= form.label :start_address, "Startadresse" %>
+    <%= form.text_field :start_address, required: true, autocomplete: "street-address" %>
+  </div>
+  <div class="portal-field">
+    <%= form.label :end_address, "Zieladresse" %>
+    <%= form.text_field :end_address, required: true %>
+  </div>
+  <div class="portal-field">
+    <%= form.label :km, "Strecke in ganzen Kilometern" %>
+    <%= form.number_field :km, min: 1, step: 1, required: true %>
+  </div>
+  <div class="portal-readonly-value">
+    <span>Kilometersatz</span>
+    <strong>0,30 €/km</strong>
+  </div>
+
+  <div class="portal-form-actions">
+    <%= form.submit expense.persisted? ? "Änderungen speichern" : "Fahrtkosten speichern", class: "portal-button" %>
+    <%= link_to "Abbrechen", portal_expenses_path, class: "portal-button portal-button--outline" %>
+  </div>
+<% end %>

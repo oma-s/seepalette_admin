@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <title><%= content_for?(:title) ? yield(:title) : "Seepalette" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="portal-body">
+    <div class="portal-shell">
+      <aside class="portal-sidebar" aria-label="Hauptnavigation">
+        <%= link_to portal_root_path, class: "portal-brand", aria: {label: "Seepalette Startseite"} do %>
+          <%= image_tag "logo.png", alt: "Seepalette", class: "portal-brand__logo" %>
+        <% end %>
+        <nav class="portal-nav">
+          <%= portal_nav_link "Start", portal_root_path, "dashboard" %>
+          <%= portal_nav_link "Dienstplan", portal_work_schedule_path, "work_schedules" %>
+          <%= portal_nav_link "Zeiten", portal_working_hours_path, "working_hours" %>
+          <%= portal_nav_link "Auslagen", portal_expenses_path, "expenses" %>
+        </nav>
+        <div class="portal-sidebar__account">
+          <span><%= current_user %></span>
+          <% if current_user.admin? %>
+            <%= link_to "Adminbereich", admin_root_path, class: "portal-text-link" %>
+          <% end %>
+          <%= button_to "Abmelden", destroy_user_session_path, method: :delete, class: "portal-text-button" %>
+        </div>
+      </aside>
+
+      <main class="portal-main">
+        <% flash.each do |type, message| %>
+          <div class="portal-flash portal-flash--<%= type %>" role="status"><%= message %></div>
+        <% end %>
+        <%= yield %>
+      </main>
+
+      <nav class="portal-bottom-nav" aria-label="Mobile Hauptnavigation">
+        <%= portal_nav_link "Start", portal_root_path, "dashboard" %>
+        <%= portal_nav_link "Plan", portal_work_schedule_path, "work_schedules" %>
+        <%= portal_nav_link "Zeiten", portal_working_hours_path, "working_hours" %>
+        <%= portal_nav_link "Auslagen", portal_expenses_path, "expenses" %>
+      </nav>
+    </div>
+  </body>
+</html>

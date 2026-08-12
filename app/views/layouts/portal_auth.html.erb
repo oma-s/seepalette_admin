@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <title>Seepalette</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  </head>
+  <body class="portal-body portal-auth-body">
+    <main class="portal-auth">
+      <%= image_tag "logo.png", alt: "Seepalette", class: "portal-auth__logo" %>
+      <% flash.each do |type, message| %>
+        <div class="portal-flash portal-flash--<%= type %>" role="status"><%= message %></div>
+      <% end %>
+      <%= yield %>
+    </main>
+  </body>
+</html>

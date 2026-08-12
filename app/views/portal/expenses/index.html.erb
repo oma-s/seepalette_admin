@@ -1,0 +1,43 @@
+<% content_for :title, "Auslagen · Seepalette" %>
+
+<header class="portal-page-header">
+  <div>
+    <p class="portal-eyebrow">Meine Einträge</p>
+    <h1>Auslagen</h1>
+  </div>
+  <%= link_to "Fahrtkosten erfassen", new_portal_expense_path, class: "portal-button" %>
+</header>
+
+<nav class="portal-month-nav" aria-label="Monat auswählen">
+  <%= link_to "←", portal_expenses_path(month: (@month - 1.month).strftime("%Y-%m")), aria: {label: "Vorheriger Monat"} %>
+  <strong><%= l @month, format: "%B %Y" %></strong>
+  <%= link_to "→", portal_expenses_path(month: (@month + 1.month).strftime("%Y-%m")), aria: {label: "Nächster Monat"} %>
+</nav>
+
+<div class="portal-grid">
+  <section class="portal-card portal-card--orange">
+    <p class="portal-card__kicker">Monatssumme</p>
+    <p class="portal-metric"><%= number_to_currency(@total, unit: "€", format: "%n %u", locale: :de) %></p>
+  </section>
+
+  <% @expenses.each do |expense| %>
+    <article class="portal-card portal-card--neutral">
+      <div>
+        <p class="portal-card__kicker"><%= l expense.date, format: :long %></p>
+        <h2><%= expense.purpose %></h2>
+        <p><%= expense.start_address %> → <%= expense.end_address %></p>
+        <dl class="portal-data-list">
+          <div><dt>Strecke</dt><dd><%= expense.km %> km</dd></div>
+          <div><dt>Satz</dt><dd><%= number_to_currency(expense.factor, unit: "€/km", format: "%n %u", locale: :de) %></dd></div>
+          <div><dt>Erstattung</dt><dd><%= number_to_currency(expense.reimbursement_amount, unit: "€", format: "%n %u", locale: :de) %></dd></div>
+        </dl>
+      </div>
+      <div class="portal-card__actions">
+        <%= link_to "Bearbeiten", edit_portal_expense_path(expense), class: "portal-button portal-button--outline" %>
+        <%= button_to "Löschen", portal_expense_path(expense), method: :delete, class: "portal-text-button", form: {data: {confirm: "Fahrtkosten wirklich löschen?"}} %>
+      </div>
+    </article>
+  <% end %>
+</div>
+
+<% if @expenses.empty? %><p class="portal-empty">Für diesen Monat wurden noch keine Auslagen erfasst.</p><% end %>

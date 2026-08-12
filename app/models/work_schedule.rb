@@ -49,7 +49,15 @@ class WorkSchedule < ApplicationRecord
   end
 
   def publish!(user)
-    raise ActiveRecord::RecordInvalid, self if work_shifts.none?
+    if work_shifts.none?
+      errors.add(:base, "Ein Dienstplan benötigt mindestens eine gültige Schicht")
+      raise ActiveRecord::RecordInvalid, self
+    end
+
+    if (conflict = overlapping_published_schedule)
+      errors.add(:base, "Der Zeitraum überschneidet sich mit dem veröffentlichten Dienstplan „#{conflict}“")
+      raise ActiveRecord::RecordInvalid, self
+    end
 
     with_lock do
       publication = work_schedule_publications.create!(
@@ -119,6 +127,20 @@ class WorkSchedule < ApplicationRecord
 
   def initialize_content_updated_at
     self.content_updated_at ||= Time.current
+  end
+
+  def overlapping_published_schedule
+    self.class.where.not(id: id).includes(:work_schedule_publications).find do |schedule|
+      publication = schedule.latest_publication
+      next false unless publication
+
+      payload = publication.payload.stringify_keys
+      published_start = Date.iso8601(payload.fetch("starts_on"))
+      published_end = Date.iso8601(payload.fetch("ends_on"))
+      starts_on <= published_end && ends_on >= published_start
+    rescue Date::Error, KeyError
+      false
+    end
   end
 
   def ends_on_or_after_starts_on

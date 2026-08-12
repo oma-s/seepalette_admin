@@ -1,0 +1,19 @@
+<section class="portal-auth-card">
+  <p class="portal-eyebrow">Mitarbeiterportal</p>
+  <h1>Anmelden</h1>
+  <%= form_for resource, as: resource_name, url: session_path(resource_name), html: {class: "portal-form"} do |form| %>
+    <div class="portal-field">
+      <%= form.label :email, "E-Mail-Adresse" %>
+      <%= form.email_field :email, autofocus: true, autocomplete: "email", required: true %>
+    </div>
+    <div class="portal-field">
+      <%= form.label :password, "Passwort" %>
+      <%= form.password_field :password, autocomplete: "current-password", required: true %>
+    </div>
+    <% if devise_mapping.rememberable? %>
+      <label class="portal-checkbox"><%= form.check_box :remember_me %><span>Angemeldet bleiben</span></label>
+    <% end %>
+    <%= form.submit "Anmelden", class: "portal-button portal-button--full" %>
+  <% end %>
+  <%= link_to "Passwort vergessen?", new_password_path(resource_name), class: "portal-text-link" %>
+</section>

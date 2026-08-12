@@ -58,4 +58,17 @@ RSpec.describe WorkSchedule, type: :model do
 
     expect { schedule.publish!(create(:user, :admin)) }.to raise_error(ActiveRecord::RecordInvalid)
   end
+
+  it "does not publish a period overlapping another published schedule" do
+    admin = create(:user, :admin)
+    first = create(:work_schedule, starts_on: Date.new(2026, 8, 7), ends_on: Date.new(2026, 8, 9))
+    create(:work_shift, work_schedule_day_station: first.work_schedule_days.first.work_schedule_day_stations.first)
+    first.publish!(admin)
+
+    overlapping = create(:work_schedule, starts_on: Date.new(2026, 8, 9), ends_on: Date.new(2026, 8, 11))
+    create(:work_shift, work_schedule_day_station: overlapping.work_schedule_days.last.work_schedule_day_stations.first)
+
+    expect { overlapping.publish!(admin) }.to raise_error(ActiveRecord::RecordInvalid)
+    expect(overlapping.errors[:base].join).to include("überschneidet")
+  end
 end

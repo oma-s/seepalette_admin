@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_10_230500) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_11_100000) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.integer "author_id"
     t.string "author_type"
@@ -37,6 +37,20 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_10_230500) do
     t.index ["addressable_type", "addressable_id"], name: "index_addresses_on_addressable"
   end
 
+  create_table "announcements", force: :cascade do |t|
+    t.boolean "active", default: true, null: false
+    t.text "body", null: false
+    t.datetime "created_at", null: false
+    t.integer "priority", default: 0, null: false
+    t.string "severity", default: "info", null: false
+    t.string "title", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "visible_from"
+    t.datetime "visible_until"
+    t.index ["active", "visible_from", "visible_until"], name: "idx_announcements_visibility"
+    t.index ["priority", "created_at"], name: "index_announcements_on_priority_and_created_at"
+  end
+
   create_table "categories", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.text "description"
@@ -59,7 +73,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_10_230500) do
     t.datetime "created_at", null: false
     t.date "date"
     t.string "end_address", null: false
-    t.decimal "factor", precision: 3, scale: 2, null: false
+    t.decimal "factor", precision: 3, scale: 2, default: "0.3", null: false
     t.integer "km", null: false
     t.text "purpose", null: false
     t.string "start_address", null: false

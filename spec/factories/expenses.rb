@@ -1,10 +1,11 @@
 FactoryBot.define do
   factory :expense do
-    user { nil }
-    date { "2025-07-08" }
-    start_address { "MyString" }
-    end_address { "MyString" }
-    km { 1 }
-    factor { "9.99" }
+    association :user
+    date { 2.days.ago.to_date }
+    start_address { "Seestraße 1, Dobbrikow" }
+    end_address { "Bahnhofstraße 1, Potsdam" }
+    purpose { "Einkauf" }
+    km { 24 }
+    factor { Expense::DEFAULT_FACTOR }
   end
 end

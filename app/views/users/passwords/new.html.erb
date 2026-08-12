@@ -1,0 +1,11 @@
+<section class="portal-auth-card">
+  <p class="portal-eyebrow">Zugang</p>
+  <h1>Passwort zurücksetzen</h1>
+  <p>Wir senden dir einen Link zum Festlegen eines neuen Passworts.</p>
+  <%= form_for resource, as: resource_name, url: password_path(resource_name), html: {method: :post, class: "portal-form"} do |form| %>
+    <%= render "devise/shared/error_messages", resource: resource %>
+    <div class="portal-field"><%= form.label :email, "E-Mail-Adresse" %><%= form.email_field :email, autofocus: true, autocomplete: "email", required: true %></div>
+    <%= form.submit "Link anfordern", class: "portal-button portal-button--full" %>
+  <% end %>
+  <%= link_to "Zurück zur Anmeldung", new_session_path(resource_name), class: "portal-text-link" %>
+</section>

@@ -1,0 +1,43 @@
+<% content_for :title, "Arbeitszeiten · Seepalette" %>
+
+<header class="portal-page-header">
+  <div>
+    <p class="portal-eyebrow">Meine Einträge</p>
+    <h1>Arbeitszeiten</h1>
+  </div>
+  <%= link_to "Arbeitszeit erfassen", new_portal_working_hour_path, class: "portal-button" %>
+</header>
+
+<nav class="portal-month-nav" aria-label="Monat auswählen">
+  <%= link_to "←", portal_working_hours_path(month: (@month - 1.month).strftime("%Y-%m")), aria: {label: "Vorheriger Monat"} %>
+  <strong><%= l @month, format: "%B %Y" %></strong>
+  <%= link_to "→", portal_working_hours_path(month: (@month + 1.month).strftime("%Y-%m")), aria: {label: "Nächster Monat"} %>
+</nav>
+
+<div class="portal-grid">
+  <section class="portal-card portal-card--coral">
+    <p class="portal-card__kicker">Monatssumme</p>
+    <p class="portal-metric"><%= format_minutes(@total_minutes) %></p>
+  </section>
+
+  <% @working_hours.each do |working_hour| %>
+    <article class="portal-card portal-card--neutral">
+      <div>
+        <p class="portal-card__kicker"><%= l working_hour.date, format: :long %></p>
+        <h2><%= working_hour.start_at.strftime("%H:%M") %>–<%= working_hour.end_at.strftime("%H:%M") %><%= " (+1)" if working_hour.end_at.to_date > working_hour.start_at.to_date %></h2>
+        <dl class="portal-data-list">
+          <div><dt>Pause</dt><dd><%= working_hour.break_minutes %> Min.</dd></div>
+          <div><dt>Arbeitszeit</dt><dd><%= format_minutes(working_hour.duration_minutes) %></dd></div>
+        </dl>
+      </div>
+      <div class="portal-card__actions">
+        <%= link_to "Bearbeiten", edit_portal_working_hour_path(working_hour), class: "portal-button portal-button--outline" %>
+        <%= button_to "Löschen", portal_working_hour_path(working_hour), method: :delete, class: "portal-text-button", form: {data: {confirm: "Arbeitszeit wirklich löschen?"}} %>
+      </div>
+    </article>
+  <% end %>
+</div>
+
+<% if @working_hours.empty? %>
+  <p class="portal-empty">Für diesen Monat wurden noch keine Arbeitszeiten erfasst.</p>
+<% end %>

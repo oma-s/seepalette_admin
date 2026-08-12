@@ -1,0 +1,139 @@
+<% content_for :title, "Dienstplan · Seepalette" %>
+
+<header class="portal-page-header">
+  <div>
+    <p class="portal-eyebrow">Veröffentlichter Stand</p>
+    <h1>Dienstplan</h1>
+  </div>
+</header>
+
+<% if @schedule.nil? %>
+  <section class="portal-card portal-card--blue portal-card--wide">
+    <h2>Noch kein Dienstplan veröffentlicht</h2>
+    <p>Sobald ein Plan veröffentlicht wurde, erscheint er hier.</p>
+  </section>
+<% else %>
+  <section class="portal-schedule-toolbar">
+    <div>
+      <h2><%= @schedule.title %></h2>
+      <p><%= l @schedule.starts_on, format: :long %> – <%= l @schedule.ends_on, format: :long %></p>
+    </div>
+    <div class="portal-segmented" aria-label="Dienstplanansicht">
+      <%= link_to "Meine Schichten", portal_work_schedule_path(schedule_id: @schedule.id), class: class_names("is-active": !@team_view) %>
+      <%= link_to "Gesamter Plan", portal_work_schedule_path(schedule_id: @schedule.id, view: "team"), class: class_names("is-active": @team_view) %>
+    </div>
+    <div class="portal-toolbar-links">
+      <% if @previous_schedule %>
+        <%= link_to "← Vorheriger Plan", portal_work_schedule_path(schedule_id: @previous_schedule.id, view: (@team_view ? "team" : nil)), class: "portal-text-link" %>
+      <% end %>
+      <% if @next_schedule %>
+        <%= link_to "Nächster Plan →", portal_work_schedule_path(schedule_id: @next_schedule.id, view: (@team_view ? "team" : nil)), class: "portal-text-link" %>
+      <% end %>
+    </div>
+  </section>
+
+  <% if @schedule.notes.present? %>
+    <aside class="portal-card portal-card--blue portal-card--wide">
+      <p class="portal-card__kicker">Hinweis zum Plan</p>
+      <%= simple_format @schedule.notes %>
+    </aside>
+  <% end %>
+
+  <% if @team_view %>
+    <% day = @schedule.day(@selected_date) %>
+    <div class="portal-day-tabs portal-team-mobile">
+      <% @schedule.days.each do |schedule_day| %>
+        <%= link_to l(schedule_day[:date], format: "%a, %d.%m."), portal_work_schedule_path(schedule_id: @schedule.id, view: "team", date: schedule_day[:date]), class: class_names("is-active": schedule_day[:date] == @selected_date) %>
+      <% end %>
+    </div>
+
+    <div class="portal-team-mobile portal-station-list">
+      <% day[:notices].each do |notice| %>
+        <aside class="portal-notice portal-notice--<%= notice[:severity] %>"><%= notice[:text] %></aside>
+      <% end %>
+      <% day[:stations].each do |station| %>
+        <section class="portal-card portal-card--neutral">
+          <h2><%= station[:name] %></h2>
+          <% if station[:shifts].any? %>
+            <div class="portal-shift-list">
+              <% station[:shifts].each do |shift| %>
+                <article class="portal-shift <%= schedule_color_class(shift[:user_color]) %> <%= "is-own" if shift[:user_id] == current_user.id %>">
+                  <strong><%= shift[:user_name] %><%= " · Du" if shift[:user_id] == current_user.id %></strong>
+                  <span><%= format_shift_time(shift) %></span>
+                  <% if shift[:notes].present? %><p><%= shift[:notes] %></p><% end %>
+                </article>
+              <% end %>
+            </div>
+          <% else %>
+            <p>Keine Schichten.</p>
+          <% end %>
+        </section>
+      <% end %>
+    </div>
+
+    <section class="portal-card portal-card--neutral portal-card--wide portal-team-desktop">
+      <div class="portal-week-toolbar">
+        <% previous_week = @selected_week - 7.days %>
+        <% next_week = @selected_week + 7.days %>
+        <% if previous_week.end_of_week >= @schedule.starts_on %>
+          <%= link_to "← Woche", portal_work_schedule_path(schedule_id: @schedule.id, view: "team", week: previous_week), class: "portal-button portal-button--outline" %>
+        <% else %><span></span><% end %>
+        <h2>Woche ab <%= l @selected_week, format: :long %></h2>
+        <% if next_week <= @schedule.ends_on %>
+          <%= link_to "Woche →", portal_work_schedule_path(schedule_id: @schedule.id, view: "team", week: next_week), class: "portal-button portal-button--outline" %>
+        <% else %><span></span><% end %>
+      </div>
+      <div class="portal-week-grid">
+        <% (@selected_week..(@selected_week + 6.days)).each do |date| %>
+          <% schedule_day = @schedule.day(date) %>
+          <section class="portal-week-day">
+            <h3><%= l date, format: "%a, %d.%m." %></h3>
+            <% if schedule_day %>
+              <% schedule_day[:notices].each do |notice| %>
+                <div class="portal-notice portal-notice--<%= notice[:severity] %>"><%= notice[:text] %></div>
+              <% end %>
+              <% schedule_day[:stations].each do |station| %>
+                <h4><%= station[:name] %></h4>
+                <% station[:shifts].each do |shift| %>
+                  <article class="portal-shift <%= schedule_color_class(shift[:user_color]) %> <%= "is-own" if shift[:user_id] == current_user.id %>">
+                    <strong><%= shift[:user_name] %></strong>
+                    <span><%= format_shift_time(shift) %></span>
+                    <% if shift[:notes].present? %><p><%= shift[:notes] %></p><% end %>
+                  </article>
+                <% end %>
+              <% end %>
+            <% else %>
+              <p class="portal-muted">Außerhalb des Plans</p>
+            <% end %>
+          </section>
+        <% end %>
+      </div>
+    </section>
+  <% else %>
+    <% if @shifts.any? %>
+      <div class="portal-grid">
+        <% @shifts.each do |shift| %>
+          <article class="portal-card portal-card--blue portal-shift-card">
+            <div>
+              <p class="portal-card__kicker"><%= l shift[:starts_at].to_date, format: :long %></p>
+              <h2><%= format_shift_time(shift) %></h2>
+              <p><strong><%= shift[:station_name] %></strong></p>
+              <% if shift[:notes].present? %><p><%= shift[:notes] %></p><% end %>
+              <% shift[:notices].each do |notice| %>
+                <div class="portal-notice portal-notice--<%= notice[:severity] %>"><%= notice[:text] %></div>
+              <% end %>
+            </div>
+            <% if shift[:ends_at] <= Time.current %>
+              <%= link_to "Arbeitszeit erfassen", new_portal_working_hour_path(starts_at: shift[:starts_at].iso8601, ends_at: shift[:ends_at].iso8601), class: "portal-button" %>
+            <% end %>
+          </article>
+        <% end %>
+      </div>
+    <% else %>
+      <section class="portal-card portal-card--blue portal-card--wide">
+        <h2>Keine eigenen Schichten</h2>
+        <p>In diesem veröffentlichten Plan bist du nicht eingeteilt.</p>
+      </section>
+    <% end %>
+  <% end %>
+<% end %>
