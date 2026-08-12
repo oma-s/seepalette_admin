@@ -1,0 +1,13 @@
+de:
+  devise:
+    failure:
+      unauthenticated: "Bitte melde dich an, um fortzufahren."
+    passwords:
+      send_instructions: "Du erhältst in wenigen Minuten eine E-Mail mit einer Anleitung zum Zurücksetzen deines Passworts."
+      send_paranoid_instructions: "Falls deine E-Mail-Adresse in unserer Datenbank existiert, erhältst du in wenigen Minuten einen Link zum Zurücksetzen deines Passworts."
+      updated: "Dein Passwort wurde erfolgreich geändert. Du bist jetzt angemeldet."
+      updated_not_active: "Dein Passwort wurde erfolgreich geändert."
+    sessions:
+      signed_in: "Erfolgreich angemeldet."
+      signed_out: "Erfolgreich abgemeldet."
+      already_signed_out: "Erfolgreich abgemeldet."

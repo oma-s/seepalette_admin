@@ -8,12 +8,12 @@ RSpec.describe "Mitarbeiterportal", type: :request do
   let(:user) { create(:user, given_name: "Mara") }
 
   it "requires a login and sends every role to the welcome page" do
-    get portal_root_path
+    get root_path
     expect(response).to redirect_to(new_user_session_path)
 
     admin = create(:user, :admin)
     post user_session_path, params: {user: {email: admin.email, password: "password"}}
-    expect(response).to redirect_to(portal_root_path)
+    expect(response).to redirect_to(root_path)
   end
 
   it "renders visible announcements and the next published shift" do
@@ -22,7 +22,7 @@ RSpec.describe "Mitarbeiterportal", type: :request do
     schedule = published_schedule_for(user)
 
     sign_in user
-    get portal_root_path
+    get root_path
 
     expect(response).to be_successful
     expect(response.body).to include(announcement.title, "Teamabend", "Nächste Schichten", schedule.title)

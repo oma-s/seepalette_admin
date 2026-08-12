@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  root to: "portal/dashboard#show"
+
   resources :suppliers
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
@@ -16,7 +18,6 @@ Rails.application.routes.draw do
   ActiveAdmin.routes(self)
 
   scope module: :portal, as: :portal do
-    root to: "dashboard#show"
     resource :work_schedule, path: "dienstplan", only: :show
     resources :working_hours, path: "arbeitszeiten", except: :show
     resources :expenses, path: "auslagen", except: :show

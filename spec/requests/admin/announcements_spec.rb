@@ -22,6 +22,6 @@ RSpec.describe "Admin announcements", type: :request do
 
     get admin_announcements_path
 
-    expect(response).to redirect_to(portal_root_path)
+    expect(response).to redirect_to(root_path)
   end
 end
