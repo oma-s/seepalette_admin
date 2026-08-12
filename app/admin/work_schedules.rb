@@ -192,8 +192,8 @@ ActiveAdmin.register WorkSchedule do
   member_action :publish_schedule, method: :post do
     publication = resource.publish!(current_user)
     render json: {revision: publication.revision, publication_state: resource.reload.publication_state}
-  rescue ActiveRecord::RecordInvalid
-    render json: {errors: ["Ein Dienstplan benötigt mindestens eine gültige Schicht"]}, status: :unprocessable_entity
+  rescue ActiveRecord::RecordInvalid => error
+    render_validation_errors(error.record)
   end
 
   controller do

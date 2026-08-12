@@ -1,0 +1,40 @@
+<% values = working_hour_form_values(working_hour) %>
+<%= form_with model: [:portal, working_hour], class: "portal-form" do |form| %>
+  <% if working_hour.errors.any? %>
+    <div class="portal-form-errors" role="alert">
+      <strong>Bitte überprüfe deine Angaben:</strong>
+      <ul><% working_hour.errors.full_messages.each do |message| %><li><%= message %></li><% end %></ul>
+    </div>
+  <% end %>
+
+  <div class="portal-field">
+    <%= label_tag "working_hour_date", "Datum" %>
+    <%= date_field_tag "working_hour[date]", values[:date], id: "working_hour_date", required: true, max: Time.zone.today.iso8601 %>
+  </div>
+
+  <div class="portal-form-grid">
+    <div class="portal-field">
+      <%= label_tag "working_hour_start_time", "Start" %>
+      <%= time_field_tag "working_hour[start_time]", values[:start_time], id: "working_hour_start_time", required: true %>
+    </div>
+    <div class="portal-field">
+      <%= label_tag "working_hour_end_time", "Ende" %>
+      <%= time_field_tag "working_hour[end_time]", values[:end_time], id: "working_hour_end_time", required: true %>
+    </div>
+  </div>
+
+  <label class="portal-checkbox">
+    <%= check_box_tag "working_hour[overnight]", "1", values[:overnight] %>
+    <span>Ende am Folgetag</span>
+  </label>
+
+  <div class="portal-field">
+    <%= form.label :break_minutes, "Pause in Minuten" %>
+    <%= form.number_field :break_minutes, min: 0, step: 1, required: true %>
+  </div>
+
+  <div class="portal-form-actions">
+    <%= form.submit working_hour.persisted? ? "Änderungen speichern" : "Arbeitszeit speichern", class: "portal-button" %>
+    <%= link_to "Abbrechen", portal_working_hours_path, class: "portal-button portal-button--outline" %>
+  </div>
+<% end %>

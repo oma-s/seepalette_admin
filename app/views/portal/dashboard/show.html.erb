@@ -1,0 +1,74 @@
+<% content_for :title, "Willkommen · Seepalette" %>
+
+<header class="portal-hero">
+  <%= image_tag "logo.png", alt: "", class: "portal-hero__logo" %>
+  <div>
+    <p class="portal-eyebrow">Mitarbeiterportal</p>
+    <h1>Hallo <%= current_user.given_name %>.</h1>
+    <p>Hier findest du alles Wichtige für deine nächsten Dienste.</p>
+  </div>
+</header>
+
+<div class="portal-grid">
+  <% @announcements.each do |announcement| %>
+    <article class="portal-card portal-card--<%= announcement.severity %>">
+      <div>
+        <p class="portal-card__kicker">Hinweis</p>
+        <h2><%= announcement.title %></h2>
+        <div class="portal-prose"><%= simple_format announcement.body %></div>
+      </div>
+    </article>
+  <% end %>
+
+  <section class="portal-card portal-card--blue">
+    <div>
+      <p class="portal-card__kicker">Die nächsten 14 Tage</p>
+      <h2>Nächste Schichten</h2>
+      <% if @upcoming_shifts.any? %>
+        <div class="portal-compact-list">
+          <% @upcoming_shifts.each do |shift| %>
+            <div class="portal-compact-item">
+              <strong><%= l shift[:starts_at].to_date, format: :long %></strong>
+              <span><%= format_shift_time(shift) %> · <%= shift[:station_name] %></span>
+              <small><%= shift[:schedule_title] %></small>
+            </div>
+          <% end %>
+        </div>
+      <% elsif @next_later_shift %>
+        <p>Deine nächste veröffentlichte Schicht ist am <strong><%= l @next_later_shift[:starts_at].to_date, format: :long %></strong>.</p>
+      <% else %>
+        <p>Aktuell sind keine kommenden Schichten für dich veröffentlicht.</p>
+      <% end %>
+    </div>
+    <%= link_to "Dienstplan öffnen", portal_work_schedule_path, class: "portal-button" %>
+  </section>
+
+  <section class="portal-card portal-card--neutral">
+    <div>
+      <p class="portal-card__kicker">Direkt erledigen</p>
+      <h2>Schnellzugriff</h2>
+    </div>
+    <div class="portal-action-stack">
+      <%= link_to "Arbeitszeit erfassen", new_portal_working_hour_path, class: "portal-button" %>
+      <%= link_to "Fahrtkosten erfassen", new_portal_expense_path, class: "portal-button portal-button--outline" %>
+    </div>
+  </section>
+
+  <section class="portal-card portal-card--coral">
+    <div>
+      <p class="portal-card__kicker">Aktueller Monat</p>
+      <h2>Arbeitszeit</h2>
+      <p class="portal-metric"><%= format_minutes(@working_minutes) %></p>
+    </div>
+    <%= link_to "Zeiten ansehen", portal_working_hours_path, class: "portal-button" %>
+  </section>
+
+  <section class="portal-card portal-card--orange">
+    <div>
+      <p class="portal-card__kicker">Aktueller Monat</p>
+      <h2>Auslagen</h2>
+      <p class="portal-metric"><%= number_to_currency(@expense_total, unit: "€", format: "%n %u", locale: :de) %></p>
+    </div>
+    <%= link_to "Auslagen ansehen", portal_expenses_path, class: "portal-button" %>
+  </section>
+</div>

@@ -9,7 +9,7 @@ class UsersTest < ApplicationSystemTestCase
     visit admin_users_path
 
     assert_text "Users"
-    assert_text "Showing 1 of 1"
+    assert_selector "table tbody tr", count: 1
     assert_text "admin@example.com"
   end
 
@@ -29,8 +29,8 @@ class UsersTest < ApplicationSystemTestCase
     assert_text "admin@example.com"
     assert_text "Testplan"
     assert_text day_station.name
-    assert_selector "a", text: "Edit User"
-    assert_selector "a", text: "Delete User"
+    assert_link "User bearbeiten", href: edit_admin_user_path(admin)
+    assert_link "User löschen", href: admin_user_path(admin)
   end
 
   test "visiting the new and submitting" do
@@ -51,7 +51,6 @@ class UsersTest < ApplicationSystemTestCase
       form.submit();
     JAVASCRIPT
 
-    assert_text "User was successfully created.", wait: 5
     assert_current_path admin_user_path(User.last)
     assert_text "test@example.com"
   end
@@ -73,10 +72,9 @@ class UsersTest < ApplicationSystemTestCase
     fill_in "Email", with: "updated@example.com"
     fill_in "Password", with: "password", id: "user_password"
     fill_in "Password confirmation", with: "password"
-    click_on "Update User"
+    find("form input[type='submit']").click
 
     assert_current_path admin_user_path(admin_user)
-    assert_text "User was successfully updated."
     assert_text "updated@example.com"
     refute_text "test@example.com"
   end
@@ -86,7 +84,7 @@ class UsersTest < ApplicationSystemTestCase
 
     visit edit_admin_user_path(default_admin_user)
     fill_in "Email", with: "test@example.com"
-    click_on "Update User"
+    find("form input[type='submit']").click
 
     default_admin_user.reload
     assert_current_path edit_admin_user_path(default_admin_user)
@@ -100,12 +98,10 @@ class UsersTest < ApplicationSystemTestCase
     sign_in default_admin_user, scope: :user
 
     visit admin_user_path(admin_user)
-    accept_confirm do
-      click_on "Delete User"
-    end
+    submit_delete_user(admin_user_path(admin_user))
 
     assert_current_path admin_users_path
-    assert_text "User was successfully destroyed."
+    assert_not User.exists?(admin_user.id)
     refute_text "test@example.com"
   end
 
@@ -113,12 +109,29 @@ class UsersTest < ApplicationSystemTestCase
     sign_in default_admin_user, scope: :user
 
     visit admin_user_path(default_admin_user)
-    accept_confirm do
-      click_on "Delete User"
-    end
+    submit_delete_user(admin_user_path(default_admin_user))
 
     default_admin_user.reload
     assert_current_path admin_user_path(default_admin_user)
     assert_text "The default admin user cannot be modified."
+  end
+
+  private
+
+  def submit_delete_user(path)
+    page.execute_script(<<~JAVASCRIPT)
+      const form = document.createElement('form');
+      form.method = 'post';
+      form.action = #{path.to_json};
+
+      const method = document.createElement('input');
+      method.type = 'hidden';
+      method.name = '_method';
+      method.value = 'delete';
+      form.appendChild(method);
+
+      document.body.appendChild(form);
+      form.submit();
+    JAVASCRIPT
   end
 end

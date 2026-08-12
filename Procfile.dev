@@ -1,2 +1,3 @@
 web: env RUBY_DEBUG_OPEN=true bin/rails server
-css: yarn build:css --watch=always
+css_admin: yarn build:css:admin --watch=always
+css_portal: yarn build:css:portal --watch=always

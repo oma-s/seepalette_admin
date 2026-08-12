@@ -39,5 +39,6 @@ module ActiveAdminDemo
     # config.eager_load_paths << Rails.root.join("extras")
 
     config.i18n.available_locales = %i[en de]
+    config.i18n.default_locale = :de
   end
 end

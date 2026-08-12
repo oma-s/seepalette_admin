@@ -15,8 +15,12 @@ class ApplicationController < ActionController::Base
     return if current_user&.admin?
 
     respond_to do |format|
-      format.html { redirect_to new_user_session_path, alert: "Du hast keinen Zugriff auf den Adminbereich." }
+      format.html { redirect_to root_path, alert: "Du hast keinen Zugriff auf den Adminbereich." }
       format.json { render json: {errors: ["Kein Zugriff auf den Adminbereich"]}, status: :forbidden }
     end
+  end
+
+  def after_sign_in_path_for(resource)
+    stored_location_for(resource) || root_path
   end
 end

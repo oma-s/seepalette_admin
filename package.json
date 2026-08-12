@@ -8,7 +8,9 @@
     "tailwindcss": "^4.3.3"
   },
   "scripts": {
-    "build:css": "npx @tailwindcss/cli -i ./app/assets/stylesheets/active_admin.css -o ./app/assets/builds/active_admin.css --minify"
+    "build:css": "yarn build:css:admin && yarn build:css:portal",
+    "build:css:admin": "npx @tailwindcss/cli -i ./app/assets/stylesheets/active_admin.css -o ./app/assets/builds/active_admin.css --minify",
+    "build:css:portal": "npx @tailwindcss/cli -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/application.css --minify"
   },
   "packageManager": "yarn@1.22.19"
 }
